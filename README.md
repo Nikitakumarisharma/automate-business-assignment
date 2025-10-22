@@ -66,22 +66,182 @@ Since you've set up directly with Supabase, you can run the app natively without
    - JWT secret
    - Other required variables
 
-# Generate Prisma client
+3. **Generate Prisma client**:
+   ```bash
+   npx prisma generate
+   ```
 
+4. **Push schema changes**:
+   ```bash
+   npx prisma db push
+   ```
+
+5. **Run migrations**:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+6. **Seed database**:
+   ```bash
+   npx prisma db seed
+   ```
+
+7. **Start the application**:
+   ```bash
+   npm run dev
+   ```
+
+8. **Access the API**:
+   - Base URL: http://localhost:3000
+
+## Environment Variables
+
+Copy `env.example` to `.env` and fill in your values:
+
+```env
+# Supabase Configuration
+SUPABASE_URL="https://your-project-ref.supabase.co"
+SUPABASE_ANON_KEY="your-supabase-anon-key"
+
+# AWS Configuration
+AWS_ACCESS_KEY_ID="your-aws-access-key-id"
+AWS_SECRET_ACCESS_KEY="your-aws-secret-access-key"
+AWS_REGION="us-east-1"
+AWS_S3_BUCKET_NAME="your-s3-bucket-name"
+
+# JWT Configuration
+JWT_SECRET="your-jwt-secret-key"
+JWT_EXPIRES_IN="24h"
+
+# Other settings...
+```
+
+## API Documentation
+
+See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for detailed API endpoints and usage.
+
+## Testing
+
+```bash
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## API Testing with Postman
+
+### Importing the Collection
+
+#### Step 1: Import Collection
+1. Open Postman
+2. Click "Import" button (top left)
+3. Select "File" tab
+4. Choose `Postman_Collection.postman_collection.json` from your project root
+5. Click "Import"
+
+#### Step 2: Create Environment
+1. Click on "Environments" in the left sidebar
+2. Click "Create Environment"
+3. Name it "Digital Asset API - Local"
+4. Add the following variables:
+
+| Variable | Initial Value | Description |
+|----------|---------------|-------------|
+| `base_url` | `http://localhost:3000` | API base URL |
+| `user_token` | `` | JWT token for regular user (auto-filled) |
+| `admin_token` | `` | JWT token for admin user |
+| `user_id` | `` | Current user ID (auto-filled) |
+| `asset_id` | `` | ID of uploaded asset for testing |
+| `target_user_id` | `` | User ID for admin operations |
+| `webhook_subscription_id` | `` | Webhook subscription ID |
+| `test_user_email` | `test@example.com` | Test user email |
+| `test_user_password` | `password123` | Test user password |
+| `test_user_firstname` | `Test` | Test user first name |
+| `test_user_lastname` | `User` | Test user last name |
+| `google_test_email` | `google@example.com` | Google OAuth test email |
+| `google_test_name` | `Google Test User` | Google OAuth test name |
+| `google_test_id` | `google-123456` | Google OAuth test ID |
+| `google_test_picture` | `https://example.com/avatar.jpg` | Google OAuth test picture |
+| `share_email` | `share@example.com` | Email for asset sharing |
+| `share_expiry` | `2024-12-31T23:59:59Z` | Asset share expiry date |
+| `webhook_test_url` | `https://webhook.site/test` | Test webhook URL |
+| `webhook_secret` | `your-webhook-secret` | Webhook secret key |
+
+#### Step 3: Select Environment
+- Click the environment dropdown (top right)
+- Select "Digital Asset API - Local"
+
+## Database Management
+
+You can use either npm scripts or npx directly:
+
+```bash
+# Generate Prisma client
+npm run db:generate
+# or
 npx prisma generate
 
 # Push schema changes
-
+npm run db:push
+# or
 npx prisma db push
 
 # Run migrations
-
+npm run db:migrate
+# or
 npx prisma migrate dev
 
 # Seed database
+npm run db:seed
+# or
+node prisma/seed.js
 
-npx prisma db seed
+# Open Prisma Studio
+npm run db:studio
+# or
+npx prisma studio
+```
 
-#  then
-npm run dev
 
+## Importing the Collection
+
+### Step 1: Import Collection
+1. Open Postman
+2. Click "Import" button (top left)
+3. Select "File" tab
+4. Choose `Postman_Collection.postman_collection.json` from your project root
+5. Click "Import"
+
+### Step 2: Create Environment
+1. Click on "Environments" in the left sidebar
+2. Click "Create Environment"
+3. Name it "Digital Asset API - Local"
+4. Add the following variables:
+
+| Variable | Initial Value | Description |
+|----------|---------------|-------------|
+| `base_url` | `http://localhost:3000` | API base URL |
+| `user_token` | `` | JWT token for regular user (auto-filled) |
+| `admin_token` | `` | JWT token for admin user |
+| `user_id` | `` | Current user ID (auto-filled) |
+| `asset_id` | `` | ID of uploaded asset for testing |
+| `target_user_id` | `` | User ID for admin operations |
+| `webhook_subscription_id` | `` | Webhook subscription ID |
+| `test_user_email` | `test@example.com` | Test user email |
+| `test_user_password` | `password123` | Test user password |
+| `test_user_firstname` | `Test` | Test user first name |
+| `test_user_lastname` | `User` | Test user last name |
+| `google_test_email` | `google@example.com` | Google OAuth test email |
+| `google_test_name` | `Google Test User` | Google OAuth test name |
+| `google_test_id` | `google-123456` | Google OAuth test ID |
+| `google_test_picture` | `https://example.com/avatar.jpg` | Google OAuth test picture |
+| `share_email` | `share@example.com` | Email for asset sharing |
+| `share_expiry` | `2024-12-31T23:59:59Z` | Asset share expiry date |
+| `webhook_test_url` | `https://webhook.site/test` | Test webhook URL |
+| `webhook_secret` | `your-webhook-secret` | Webhook secret key |
+
+### Step 3: Select Environment
+- Click the environment dropdown (top right)
+- Select "Digital Asset API - Local"
