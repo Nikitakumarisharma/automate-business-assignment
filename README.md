@@ -171,9 +171,6 @@ This project includes a Postman collection for testing all API endpoints. To imp
    - Add variables like `base_url` (e.g., `http://localhost:3000`), `token` (for authenticated requests), etc.
 7. **Start testing** the endpoints using the imported collection.
 
-The collection includes all authentication, asset management, user management, analytics, and webhook endpoints with pre-configured requests.
-
-## 📚 API Documentation
 
 ### Authentication Endpoints
 
@@ -556,5 +553,3 @@ For support and questions:
 - Analytics dashboard
 - Docker deployment
 - CI/CD pipeline
-#   a u t o m a t e - b u s i n e s s - a s s i g n m e n t  
- 
