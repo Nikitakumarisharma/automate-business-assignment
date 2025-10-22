@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  description String?
+  permissions Json       @default("{}")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  userRoles   UserRole[]
+
+  @@map("roles")
+}
+
+model User {
+  id                   String                @id @default(uuid())
+  email                String                @unique
+  passwordHash         String?               @map("password_hash")
+  firstName            String?               @map("first_name")
+  lastName             String?               @map("last_name")
+  avatarUrl            String?               @map("avatar_url")
+  googleId             String?               @unique @map("google_id")
+  isActive             Boolean               @default(true) @map("is_active")
+  isVerified           Boolean               @default(false) @map("is_verified")
+  lastLogin            DateTime?             @map("last_login")
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  activityLogs         ActivityLog[]
+  assetShares          AssetShare[]          @relation("AssetShareSharedBy")
+  sharedAssets         AssetShare[]          @relation("AssetShareSharedWith")
+  assets               Asset[]
+  userRoles            UserRole[]
+  webhookSubscriptions WebhookSubscription[]
+
+  @@map("users")
+}
+
+model UserRole {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  roleId     String   @map("role_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+  assignedBy String?  @map("assigned_by")
+  role       Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
+
+model Asset {
+  id               String       @id @default(uuid())
+  filename         String
+  originalFilename String       @map("original_filename")
+  fileSize         BigInt       @map("file_size")
+  mimeType         String       @map("mime_type")
+  fileExtension    String?      @map("file_extension")
+  s3Key            String       @map("s3_key")
+  s3Bucket         String       @map("s3_bucket")
+  s3Url            String       @map("s3_url")
+  ownerId          String       @map("owner_id")
+  tags             String[]
+  description      String?
+  isPublic         Boolean      @default(false) @map("is_public")
+  downloadCount    Int          @default(0) @map("download_count")
+  viewCount        Int          @default(0) @map("view_count")
+  metadata         Json         @default("{}")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+  assetShares      AssetShare[]
+  owner            User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("assets")
+}
+
+model AssetShare {
+  id               String    @id @default(uuid())
+  assetId          String    @map("asset_id")
+  sharedBy         String    @map("shared_by")
+  sharedWithEmail  String?   @map("shared_with_email")
+  sharedWithUserId String?   @map("shared_with_user_id")
+  accessLevel      String    @default("view") @map("access_level")
+  expiresAt        DateTime? @map("expires_at")
+  isActive         Boolean   @default(true) @map("is_active")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  asset            Asset     @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  sharedByUser     User      @relation("AssetShareSharedBy", fields: [sharedBy], references: [id], onDelete: Cascade)
+  sharedWithUser   User?     @relation("AssetShareSharedWith", fields: [sharedWithUserId], references: [id], onDelete: Cascade)
+
+  @@map("asset_shares")
+}
+
+model WebhookSubscription {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  webhookUrl String   @map("webhook_url")
+  events     String[]
+  secretKey  String?  @map("secret_key")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("webhook_subscriptions")
+}
+
+model ActivityLog {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  userEmail    String   @map("user_email")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String   @map("resource_id")
+  details      Json     @default("{}")
+  ipAddress    String   @map("ip_address")
+  userAgent    String   @map("user_agent")
+  timestamp    DateTime @default(now())
+  success      Boolean  @default(true)
+  errorMessage String?  @map("error_message")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activity_logs")
+}
+
+model WebhookEvent {
+  id          String    @id @default(uuid())
+  eventType   String    @map("event_type")
+  payload     Json
+  webhookUrl  String    @map("webhook_url")
+  status      String    @default("pending")
+  attempts    Int       @default(0)
+  lastAttempt DateTime? @map("last_attempt")
+  nextRetry   DateTime? @map("next_retry")
+  response    Json?
+  error       Json?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  deliveredAt DateTime? @map("delivered_at")
+
+  @@map("webhook_events")
+}
