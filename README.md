@@ -33,7 +33,6 @@ A comprehensive Digital Asset Management & Notification System with Role-Based A
 4. **Access the application**:
    - API: http://localhost:3000
    - pgAdmin (dev): http://localhost:5050 (admin@example.com / admin)
-   - MongoDB Express (dev): http://localhost:8081 (admin / admin)
 
 ### Option 2: Running Natively with Supabase (Recommended)
 Since you've set up directly with Supabase, you can run the app natively without Docker for databases.
