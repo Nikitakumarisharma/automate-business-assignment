@@ -49,51 +49,17 @@ Since you've set up directly with Supabase, you can run the app natively without
    - AWS S3 credentials
    - JWT secret
    - Other required variables
-# Generate Prisma client
+### Generate Prisma client
 npx prisma generate
-# Push schema changes
+### Push schema changes
 npx prisma db push
-# Run migrations
+### Run migrations
 npx prisma migrate dev
-# Seed database
+### Seed database
 npx prisma db seed
-#  then
+###  Then
 npm run dev
 
-this is read me add this into read me ## Importing the Collection
-### Step 1: Import Collection
-1. Open Postman
-2. Click "Import" button (top left)
-3. Select "File" tab
-4. Choose `Postman_Collection.postman_collection.json` from your project root
-5. Click "Import"
-### Step 2: Create Environment
-1. Click on "Environments" in the left sidebar
-2. Click "Create Environment"
-3. Name it "Digital Asset API - Local"
-4. Add the following variables:
-| Variable | Initial Value | Description |
-|----------|---------------|-------------|
-| `base_url` | `http://localhost:3000` | API base URL |
-| `user_token` | `` | JWT token for regular user (auto-filled) |
-| `admin_token` | `` | JWT token for admin user |
-| `user_id` | `` | Current user ID (auto-filled) |
-| `asset_id` | `` | ID of uploaded asset for testing |
-| `target_user_id` | `` | User ID for admin operations |
-| `webhook_subscription_id` | `` | Webhook subscription ID |
-| `test_user_email` | `test@example.com` | Test user email |
-| `test_user_password` | `password123` | Test user password |
-| `test_user_firstname` | `Test` | Test user first name |
-| `test_user_lastname` | `User` | Test user last name |
-| `google_test_email` | `google@example.com` | Google OAuth test email |
-| `google_test_name` | `Google Test User` | Google OAuth test name |
-| `google_test_id` | `google-123456` | Google OAuth test ID |
-| `google_test_picture` | `https://example.com/avatar.jpg` | Google OAuth test picture |
-| `share_email` | `share@example.com` | Email for asset sharing |
-| `share_expiry` | `2024-12-31T23:59:59Z` | Asset share expiry date |
-| `webhook_test_url` | `https://webhook.site/test` | Test webhook URL |
-| `webhook_secret` | `your-webhook-secret` | Webhook secret key |
-### Step 3: Select Environment
 - Click the environment dropdown (top right)
 - Select "Digital Asset API - Local"
 and give me comlete code
