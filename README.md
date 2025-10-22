@@ -50,15 +50,15 @@ Since you've set up directly with Supabase, you can run the app natively without
    - JWT secret
    - Other required variables
 ### Generate Prisma client
-npx prisma generate
+- npx prisma generate
 ### Push schema changes
-npx prisma db push
+- npx prisma db push
 ### Run migrations
-npx prisma migrate dev
+- npx prisma migrate dev
 ### Seed database
-npx prisma db seed
+- npx prisma db seed
 ###  Then
-npm run dev
+- npm run dev
 
 - Click the environment dropdown (top right)
 - Select "Digital Asset API - Local"
@@ -104,3 +104,5 @@ and give me comlete code
 ### Step 3: Select Environment
 - Click the environment dropdown (top right)
 - Select "Digital Asset API - Local"
+
+
